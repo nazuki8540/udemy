@@ -1,49 +1,45 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View, Animated,TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity,TextInput } from 'react-native';
 
 
-class App extends Component {
+export default function App(){
 
-  constructor(props){
-    super(props);
-    this.state = {
-     LarAnimada : new Animated.Value(0)
-    };
+  const [nome, setNome] = useState('Matheus');
 
-    Animated.timing(
-      this.state.LarAnimada,{
-        toValue:100,
-        duration:3000,
-      }
-    ).start();
+  const [input,setInput] = useState('');
 
+  function alteranome(){
+    setNome(input);
+    setInput('');
   }
 
-  render(){
-    let porcentagemAnimate = this.state.LarAnimada.interpolate({
-      inputRange: [0,100],
-      outputRange: ['0%', '100%']
-    });
-    return(
-      <View style={styles.container}>
-      
-      <Animated.View style={{backgroundColor:'#4169E1',
-                    width:porcentagemAnimate,
-                    height:25}}>
+  return(
+    <View style={styles.container}>
 
-      </Animated.View>
-      
-      </View>
-    );
-  }
+      <TextInput placeholder='seu nome...' value={input} onChangeText={(texto)=> setInput(texto)} />
+
+      <TouchableOpacity style={styles.btn} onPress={alteranome}>
+        <Text style={styles.btnText}>Alterar nome</Text>
+      </TouchableOpacity>
+      <Text >Olá! {nome}</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop:40,
     flex:1,
     justifyContent:'center',
-    alignItems:'flex-start'
+    alignItems:'center'
   },
+  btn:{
+    backgroundColor:'#222',
+    padding:10
+  },
+  btnText:{
+    fontSize:15,
+    color: '#ffff'
+  }
 });
 
-export default App;
